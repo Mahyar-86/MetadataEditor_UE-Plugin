@@ -1,0 +1,23 @@
+﻿{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "0.1",
+	"FriendlyName": "MetadataEditor",
+	"Description": "A plugin that adds metadata management capabilities to Unreal Engine assets.",
+	"Category": "Editor",
+	"CreatedBy": "Mahyar Kazazi",
+	"CreatedByURL": "https://mahyar-86.github.io/",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": true,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "MetadataEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
+}
