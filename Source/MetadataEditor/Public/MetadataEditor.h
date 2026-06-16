@@ -4,6 +4,8 @@
 
 #include "Modules/ModuleManager.h"
 
+DECLARE_LOG_CATEGORY_EXTERN(LogMetadataEditor, Log, All);
+
 class FMetadataEditorModule : public IModuleInterface
 {
 public:

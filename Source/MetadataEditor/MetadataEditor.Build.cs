@@ -9,20 +9,21 @@ public class MetadataEditor : ModuleRules
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"Core"
-			}
+			[
+				"Core",
+				"CoreUObject",
+				"Engine",
+				"UMG",
+				"UnrealEd",
+				"Slate",
+				"SlateCore",
+				"Blutility"
+			]
 		);
 
 		PrivateDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"CoreUObject",
-				"Engine",
-				"Slate",
-				"SlateCore"
-			}
+			[
+			]
 		);
 	}
 }

@@ -2,6 +2,8 @@
 
 #include "MetadataEditor.h"
 
+DEFINE_LOG_CATEGORY(LogMetadataEditor);
+
 #define LOCTEXT_NAMESPACE "FMetadataEditorModule"
 
 void FMetadataEditorModule::StartupModule()
