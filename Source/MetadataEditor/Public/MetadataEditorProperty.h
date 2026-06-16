@@ -16,21 +16,14 @@ struct METADATAEDITOR_API FMetadataEditorProperty
 	/** Variables **/
 	
 	UPROPERTY(BlueprintReadWrite, Category = "MetadataEditor")
-	TSoftObjectPtr<UObject> OwnerObject;
+	UObject* OwnerObject;
 	
 	UPROPERTY(BlueprintReadWrite, Category = "MetadataEditor")
 	TMap<FName, FString> Metadata;
 	
-	/** Utility functions **/
-	
-	bool IsValid() const
-	{
-		return !OwnerObject.IsNull();
-	}
-	
 	/** Constructors **/
 	
-	FMetadataEditorProperty(const TSoftObjectPtr<UObject> OwnerObject, const TMap<FName, FString>& Metadata):
+	FMetadataEditorProperty(UObject* OwnerObject, const TMap<FName, FString>& Metadata):
 		OwnerObject(OwnerObject), Metadata(Metadata){}
 	
 	FMetadataEditorProperty() = default; 

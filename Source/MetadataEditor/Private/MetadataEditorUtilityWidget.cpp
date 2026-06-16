@@ -7,7 +7,7 @@
 #include "MetadataEditor.h"
 
 
-TArray<FMetadataEditorProperty> UMetadataEditorUtilityWidget::GetMetadataPropertiesFromAssets(const TArray<TSoftObjectPtr<UObject>>& Assets)
+TArray<FMetadataEditorProperty> UMetadataEditorUtilityWidget::GetMetadataPropertiesFromAssets(const TArray<UObject*> Assets)
 {
 	TArray<FMetadataEditorProperty> MetaDataProperties;
 
@@ -17,22 +17,20 @@ TArray<FMetadataEditorProperty> UMetadataEditorUtilityWidget::GetMetadataPropert
 		return MetaDataProperties;
 	}
 	
-	for (TSoftObjectPtr<UObject> Asset : Assets)
+	for (UObject* Asset : Assets)
 	{
-		if (!Asset.IsValid())
+		if (Asset == nullptr)
 		{
-			UE_LOG(LogMetadataEditor, Error, TEXT("[GetMetadataPropertiesFromAssets] Asset %s is not valid!"), *Asset.ToString());
+			UE_LOG(LogMetadataEditor, Error, TEXT("[GetMetadataPropertiesFromAssets] Asset is null!"));
 			continue;
 		}
 		
-		const UObject* LoadedObject= Asset.LoadSynchronous();
-		if (LoadedObject == nullptr)
+		TMap<FName, FString> Metadata;
+		if (Asset->GetPackage()->GetMetaData().GetMapForObject(Asset) != nullptr)
 		{
-			UE_LOG(LogMetadataEditor, Error, TEXT("[GetMetadataPropertiesFromAssets] Faild to load the Object: %s"), *Asset->GetName());
-			continue;
+			Metadata = *Asset->GetPackage()->GetMetaData().GetMapForObject(Asset);
 		}
 		
-		TMap<FName, FString> Metadata = *Asset->GetPackage()->GetMetaData().GetMapForObject(LoadedObject);
 		MetaDataProperties.Add(FMetadataEditorProperty(Asset, Metadata));
 	}
 	
@@ -49,22 +47,14 @@ void UMetadataEditorUtilityWidget::ApplyMetadataPropertiesToAssets(const TArray<
 	
 	for (const FMetadataEditorProperty& MetadataProperty : MetaDataProperties)
 	{
-		if (!MetadataProperty.IsValid())
+		if (MetadataProperty.OwnerObject == nullptr)
 		{
-			UE_LOG(LogMetadataEditor, Error, TEXT("[ApplyMetadataPropertiesToAssets] MetadataProperty of %s is not valid!"), *MetadataProperty.OwnerObject->GetName());
+			UE_LOG(LogMetadataEditor, Error, TEXT("[ApplyMetadataPropertiesToAssets] OwnerObject of is null!"));
 			continue;
 		}
 		
 		MetadataProperty.OwnerObject->Modify();
-		
-		const UObject* LoadedObject= MetadataProperty.OwnerObject.LoadSynchronous();
-		if (LoadedObject == nullptr)
-		{
-			UE_LOG(LogMetadataEditor, Error, TEXT("[ApplyMetadataPropertiesToAssets] Faild to load the Object: %s"), *MetadataProperty.OwnerObject->GetName());
-			continue;
-		}
-		
-		MetadataProperty.OwnerObject->GetPackage()->GetMetaData().SetObjectValues(LoadedObject, MetadataProperty.Metadata);
+		MetadataProperty.OwnerObject->GetPackage()->GetMetaData().SetObjectValues(MetadataProperty.OwnerObject, MetadataProperty.Metadata);
 	}
 	
 	UE_LOG(LogMetadataEditor, Display, TEXT("[ApplyMetadataPropertiesToAssets] MetadataProperties applied to the assets."));

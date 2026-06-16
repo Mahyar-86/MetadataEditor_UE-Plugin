@@ -18,7 +18,7 @@ class METADATAEDITOR_API UMetadataEditorUtilityWidget : public UEditorUtilityWid
 public:
 	
 	UFUNCTION(BlueprintCallable, Category = "MetadataEditor")
-	static TArray<FMetadataEditorProperty> GetMetadataPropertiesFromAssets(const TArray<TSoftObjectPtr<UObject>>& Assets);
+	static TArray<FMetadataEditorProperty> GetMetadataPropertiesFromAssets(const TArray<UObject*> Assets);
 	
 	UFUNCTION(BlueprintCallable, Category = "MetadataEditor")
 	static void ApplyMetadataPropertiesToAssets(const TArray<FMetadataEditorProperty>& MetaDataProperties);
