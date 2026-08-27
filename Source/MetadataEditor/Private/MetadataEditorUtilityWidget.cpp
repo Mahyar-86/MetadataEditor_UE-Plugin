@@ -7,55 +7,33 @@
 #include "MetadataEditor.h"
 
 
-TArray<FMetadataEditorProperty> UMetadataEditorUtilityWidget::GetMetadataPropertiesFromAssets(const TArray<UObject*> Assets)
+FMetadataEditorProperty UMetadataEditorUtilityWidget::GetMetadataPropertyFromAsset(UObject* Asset)
 {
-	TArray<FMetadataEditorProperty> MetaDataProperties;
+	if (Asset == nullptr)
+	{
+		UE_LOG(LogMetadataEditor, Error, TEXT("[GetMetadataPropertyFromAsset] Asset is null!"));
+		return FMetadataEditorProperty();
+	}
+		
+	TMap<FName, FString> Metadata;
+	if (Asset->GetPackage()->GetMetaData().GetMapForObject(Asset) != nullptr)
+	{
+		Metadata = *Asset->GetPackage()->GetMetaData().GetMapForObject(Asset);
+	}
 
-	if (Assets.IsEmpty())
-	{
-		UE_LOG(LogMetadataEditor, Error, TEXT("[GetMetadataPropertiesFromAssets] Assets is empty!"));
-		return MetaDataProperties;
-	}
-	
-	for (UObject* Asset : Assets)
-	{
-		if (Asset == nullptr)
-		{
-			UE_LOG(LogMetadataEditor, Error, TEXT("[GetMetadataPropertiesFromAssets] Asset is null!"));
-			continue;
-		}
-		
-		TMap<FName, FString> Metadata;
-		if (Asset->GetPackage()->GetMetaData().GetMapForObject(Asset) != nullptr)
-		{
-			Metadata = *Asset->GetPackage()->GetMetaData().GetMapForObject(Asset);
-		}
-		
-		MetaDataProperties.Add(FMetadataEditorProperty(Asset, Metadata));
-	}
-	
-	return MetaDataProperties;
+	return FMetadataEditorProperty(Asset, Metadata);
 }
 
-void UMetadataEditorUtilityWidget::ApplyMetadataPropertiesToAssets(const TArray<FMetadataEditorProperty>& MetaDataProperties)
+void UMetadataEditorUtilityWidget::ApplyMetadataPropertyToAsset(const FMetadataEditorProperty& MetadataProperty)
 {
-	if (MetaDataProperties.IsEmpty())
+	if (MetadataProperty.OwnerObject == nullptr)
 	{
-		UE_LOG(LogMetadataEditor, Error, TEXT("[ApplyMetadataPropertiesToAssets] MetaDataProperties is empty!"));
+		UE_LOG(LogMetadataEditor, Error, TEXT("[ApplyMetadataPropertyToAsset] OwnerObject is null!"));
 		return;
 	}
+
+	MetadataProperty.OwnerObject->Modify();
+	MetadataProperty.OwnerObject->GetPackage()->GetMetaData().SetObjectValues(MetadataProperty.OwnerObject, MetadataProperty.Metadata);
 	
-	for (const FMetadataEditorProperty& MetadataProperty : MetaDataProperties)
-	{
-		if (MetadataProperty.OwnerObject == nullptr)
-		{
-			UE_LOG(LogMetadataEditor, Error, TEXT("[ApplyMetadataPropertiesToAssets] OwnerObject of is null!"));
-			continue;
-		}
-		
-		MetadataProperty.OwnerObject->Modify();
-		MetadataProperty.OwnerObject->GetPackage()->GetMetaData().SetObjectValues(MetadataProperty.OwnerObject, MetadataProperty.Metadata);
-	}
-	
-	UE_LOG(LogMetadataEditor, Display, TEXT("[ApplyMetadataPropertiesToAssets] MetadataProperties applied to the assets."));
+	UE_LOG(LogMetadataEditor, Display, TEXT("[ApplyMetadataPropertyToAsset] MetadataProperty applied to the asset."));
 }
