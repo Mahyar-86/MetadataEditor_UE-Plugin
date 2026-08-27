@@ -22,7 +22,8 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "MetadataEditor")
 	static void ApplyMetadataPropertyToAsset(const FMetadataEditorProperty& MetadataProperty);
-
-private:
-
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "MetadataEditor")
+	void InitializeWithAsset(const UObject* Asset);
+	
 };

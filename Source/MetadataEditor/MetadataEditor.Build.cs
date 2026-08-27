@@ -17,7 +17,9 @@ public class MetadataEditor : ModuleRules
 				"UnrealEd",
 				"Slate",
 				"SlateCore",
-				"Blutility"
+				"Blutility",
+				"ToolMenus",
+				"ContentBrowser"
 			]
 		);
 
