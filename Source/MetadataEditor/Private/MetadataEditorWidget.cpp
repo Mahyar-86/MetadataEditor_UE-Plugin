@@ -1,13 +1,13 @@
 // Copyright (c) 2026 Mahyar Kazazi. All Rights Reserved.
 
 
-#include "MetadataEditorUtilityWidget.h"
+#include "MetadataEditorWidget.h"
 
-#include "MetadataEditorProperty.h"
 #include "MetadataEditor.h"
+#include "MetadataEditorProperty.h"
 
 
-FMetadataEditorProperty UMetadataEditorUtilityWidget::GetMetadataPropertyFromAsset(UObject* Asset)
+FMetadataEditorProperty UMetadataEditorWidget::GetMetadataPropertyFromAsset(UObject* Asset)
 {
 	if (Asset == nullptr)
 	{
@@ -24,7 +24,7 @@ FMetadataEditorProperty UMetadataEditorUtilityWidget::GetMetadataPropertyFromAss
 	return FMetadataEditorProperty(Asset, Metadata);
 }
 
-void UMetadataEditorUtilityWidget::ApplyMetadataPropertyToAsset(const FMetadataEditorProperty& MetadataProperty)
+void UMetadataEditorWidget::ApplyMetadataPropertyToAsset(const FMetadataEditorProperty& MetadataProperty)
 {
 	if (MetadataProperty.OwnerObject == nullptr)
 	{

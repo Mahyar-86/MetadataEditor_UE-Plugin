@@ -1,17 +1,16 @@
-// Copyright (c) 2026 Mahyar Kazazi. All Rights Reserved..
+// Copyright (c) 2026 Mahyar Kazazi. All Rights Reserved.
 
 #pragma once
 
 #include "CoreMinimal.h"
-#include "EditorUtilityWidget.h"
-#include "MetadataEditorUtilityWidget.generated.h"
+#include "Blueprint/UserWidget.h"
+#include "MetadataEditorWidget.generated.h"
 
-struct FMetadataEditorProperty;
 /**
- *
+ * 
  */
 UCLASS()
-class METADATAEDITOR_API UMetadataEditorUtilityWidget : public UEditorUtilityWidget
+class METADATAEDITOR_API UMetadataEditorWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
@@ -25,5 +24,4 @@ public:
 	
 	UFUNCTION(BlueprintImplementableEvent, Category = "MetadataEditor")
 	void InitializeWithAsset(const UObject* Asset);
-	
 };

@@ -3,7 +3,7 @@
 #include "MetadataEditor.h"
 
 #include "ContentBrowserMenuContexts.h"
-#include "MetadataEditorUtilityWidget.h"
+#include "MetadataEditorWidget.h"
 
 
 class UContentBrowserAssetContextMenuContext;
@@ -51,7 +51,7 @@ void FMetadataEditorModule::RegisterMenus()
 
 void FMetadataEditorModule::OnEditMetadataClicked(FAssetData SelectedAsset)
 {
-	UClass* WidgetClass = LoadClass<UMetadataEditorUtilityWidget>(nullptr,TEXT("/MetadataEditor/Widgets/EUW_MetadataEditorUtilityWidget.EUW_MetadataEditorUtilityWidget_C"));
+	UClass* WidgetClass = LoadClass<UMetadataEditorWidget>(nullptr,TEXT("/MetadataEditor/Widgets/EUW_MetadataEditorWidget.EUW_MetadataEditorWidget_C"));
 
 	if (!WidgetClass)
 	{
@@ -59,7 +59,7 @@ void FMetadataEditorModule::OnEditMetadataClicked(FAssetData SelectedAsset)
 	}
 
 	UWorld* World = GEditor->GetEditorWorldContext().World();
-	UMetadataEditorUtilityWidget* WidgetInstance = CreateWidget<UMetadataEditorUtilityWidget>(World, WidgetClass);
+	UMetadataEditorWidget* WidgetInstance = CreateWidget<UMetadataEditorWidget>(World, WidgetClass);
 
 	if (!WidgetInstance)
 	{
