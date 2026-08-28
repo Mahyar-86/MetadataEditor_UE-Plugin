@@ -6,6 +6,8 @@
 #include "Blueprint/UserWidget.h"
 #include "MetadataEditorWidget.generated.h"
 
+struct FMetadataEditorProperty;
+
 /**
  * 
  */
@@ -24,4 +26,7 @@ public:
 	
 	UFUNCTION(BlueprintImplementableEvent, Category = "MetadataEditor")
 	void InitializeWithAsset(const UObject* Asset);
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "MetadataEditor")
+	void RequestSave();
 };

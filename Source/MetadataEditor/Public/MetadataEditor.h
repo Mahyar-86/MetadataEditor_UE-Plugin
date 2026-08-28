@@ -11,7 +11,8 @@ class FMetadataEditorModule : public IModuleInterface
 public:
 	
 	virtual void StartupModule() override;
-	virtual void ShutdownModule() override;
+
 	void RegisterMenus();
 	static void OnEditMetadataClicked(FAssetData SelectedAsset);
+
 };

@@ -4,21 +4,17 @@
 
 #include "ContentBrowserMenuContexts.h"
 #include "MetadataEditorWidget.h"
+#include "Dialog/SCustomDialog.h"
 
 
-class UContentBrowserAssetContextMenuContext;
 DEFINE_LOG_CATEGORY(LogMetadataEditor);
 
 #define LOCTEXT_NAMESPACE "FMetadataEditorModule"
 
+
 void FMetadataEditorModule::StartupModule()
 {
 	UToolMenus::RegisterStartupCallback(FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FMetadataEditorModule::RegisterMenus));
-}
-
-void FMetadataEditorModule::ShutdownModule()
-{
-
 }
 
 void FMetadataEditorModule::RegisterMenus()
@@ -68,17 +64,24 @@ void FMetadataEditorModule::OnEditMetadataClicked(FAssetData SelectedAsset)
 	
 	WidgetInstance->InitializeWithAsset(SelectedAsset.GetAsset());
 
-	const TSharedPtr<SWindow> Window = SNew(SWindow)
+	const TSharedPtr<SCustomDialog> CustomDialog = SNew(SCustomDialog)
 		.Title(FText::FromString(FString::Printf(TEXT("Edit %s Metadata"), *SelectedAsset.GetAsset()->GetName())))
-		.ClientSize(FVector2D(300, 200))
-		.SupportsMaximize(false)
-		.SupportsMinimize(false)
-		.SizingRule(ESizingRule::UserSized)
+		.Content()
 		[
 			WidgetInstance->TakeWidget()
-		];
+		]
+		.Buttons({
+			SCustomDialog::FButton(FText::FromString(TEXT("Save"))).SetPrimary(true),
+			SCustomDialog::FButton(FText::FromString(TEXT("Cancel")))
+	});
 	
-	FSlateApplication::Get().AddModalWindow(Window.ToSharedRef(), FGlobalTabmanager::Get()->GetRootWindow());
+	// Call save event if user clicked on dialog save button
+	if (CustomDialog->ShowModal() == 0)
+	{
+		WidgetInstance->RequestSave();
+	}
+
+	WidgetInstance->RemoveFromRoot();
 }
 
 #undef LOCTEXT_NAMESPACE
