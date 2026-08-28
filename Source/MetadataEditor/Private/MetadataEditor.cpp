@@ -66,6 +66,9 @@ void FMetadataEditorModule::OnEditMetadataClicked(FAssetData SelectedAsset)
 
 	const TSharedPtr<SCustomDialog> CustomDialog = SNew(SCustomDialog)
 		.Title(FText::FromString(FString::Printf(TEXT("Edit %s Metadata"), *SelectedAsset.GetAsset()->GetName())))
+		.UseScrollBox(true)
+		.HAlignContent(HAlign_Fill)
+		.VAlignContent(VAlign_Fill)
 		.Content()
 		[
 			WidgetInstance->TakeWidget()
