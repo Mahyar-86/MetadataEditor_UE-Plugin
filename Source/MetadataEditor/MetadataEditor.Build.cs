@@ -13,18 +13,19 @@ public class MetadataEditor : ModuleRules
 				"Core",
 				"CoreUObject",
 				"Engine",
-				"UMG",
-				"UnrealEd",
-				"Slate",
-				"SlateCore",
-				"Blutility",
-				"ToolMenus",
-				"ContentBrowser"
+				"UMG"
 			]
 		);
 
 		PrivateDependencyModuleNames.AddRange(
 			[
+				"UnrealEd",
+				"Slate",
+				"SlateCore",
+				"Blutility",
+				"ToolMenus",
+				"ContentBrowser",
+				"ToolWidgets"
 			]
 		);
 	}
