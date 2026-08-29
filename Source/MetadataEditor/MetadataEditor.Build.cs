@@ -25,7 +25,8 @@ public class MetadataEditor : ModuleRules
 				"Blutility",
 				"ToolMenus",
 				"ContentBrowser",
-				"ToolWidgets"
+				"ToolWidgets",
+				"Projects"
 			]
 		);
 	}

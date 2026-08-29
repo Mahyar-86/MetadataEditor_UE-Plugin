@@ -3,6 +3,7 @@
 #include "MetadataEditor.h"
 
 #include "ContentBrowserMenuContexts.h"
+#include "MetadataEditorStyle.h"
 #include "MetadataEditorWidget.h"
 #include "Dialog/SCustomDialog.h"
 
@@ -14,7 +15,14 @@ DEFINE_LOG_CATEGORY(LogMetadataEditor);
 
 void FMetadataEditorModule::StartupModule()
 {
+	FMetadataEditorStyle::Initialize();
+	
 	UToolMenus::RegisterStartupCallback(FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FMetadataEditorModule::RegisterMenus));
+}
+
+void FMetadataEditorModule::ShutdownModule()
+{
+	FMetadataEditorStyle::Shutdown();
 }
 
 void FMetadataEditorModule::RegisterMenus()
@@ -39,7 +47,7 @@ void FMetadataEditorModule::RegisterMenus()
 			"EditMetadata",
 			NSLOCTEXT("FMetadataEditorModule", "MetadataEditorLabel", "Edit Metadata"),
 			NSLOCTEXT("FMetadataEditorModule", "MetadataEditorTooltip", "Edit metadatas of this asset."),
-			FSlateIcon(FAppStyle::GetAppStyleSetName(), "Icons.Edit"),
+			FSlateIcon(FMetadataEditorStyle::GetStyleSetName(), "MetadataEditor.MenuIcon"),
 			FUIAction(FExecuteAction::CreateStatic(&FMetadataEditorModule::OnEditMetadataClicked, SelectedAsset))
 		);
 	}));
