@@ -5,15 +5,12 @@
 #include "CoreMinimal.h"
 #include "MetadataEditorProperty.generated.h" 
 
-/**
- *
- */
+
 USTRUCT(BlueprintType)
 struct METADATAEDITOR_API FMetadataEditorProperty
 {
 	GENERATED_BODY()
 	
-	/** Variables **/
 	
 	UPROPERTY(BlueprintReadWrite, Category = "MetadataEditor")
 	UObject* OwnerObject;
@@ -21,7 +18,6 @@ struct METADATAEDITOR_API FMetadataEditorProperty
 	UPROPERTY(BlueprintReadWrite, Category = "MetadataEditor")
 	TMap<FName, FString> Metadata;
 	
-	/** Constructors **/
 	
 	FMetadataEditorProperty(UObject* OwnerObject, const TMap<FName, FString>& Metadata):
 		OwnerObject(OwnerObject), Metadata(Metadata){}

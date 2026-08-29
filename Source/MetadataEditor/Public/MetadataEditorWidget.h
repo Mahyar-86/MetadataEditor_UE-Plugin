@@ -8,9 +8,6 @@
 
 struct FMetadataEditorProperty;
 
-/**
- * 
- */
 UCLASS()
 class METADATAEDITOR_API UMetadataEditorWidget : public UUserWidget
 {
@@ -24,9 +21,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "MetadataEditor")
 	static void ApplyMetadataPropertyToAsset(const FMetadataEditorProperty& MetadataProperty);
 	
-	UFUNCTION(BlueprintImplementableEvent, Category = "MetadataEditor")
+	UFUNCTION(BlueprintImplementableEvent, Category = "WidgetWorkflow")
 	void InitializeWithAsset(const UObject* Asset);
 	
-	UFUNCTION(BlueprintImplementableEvent, Category = "MetadataEditor")
+	UFUNCTION(BlueprintImplementableEvent, Category = "WidgetWorkflow")
 	void RequestSave();
 };

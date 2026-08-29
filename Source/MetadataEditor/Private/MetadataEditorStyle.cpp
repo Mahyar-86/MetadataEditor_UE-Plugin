@@ -18,7 +18,7 @@ TSharedRef<FSlateStyleSet> FMetadataEditorStyle::Create()
 	
 	Style->SetContentRoot(IPluginManager::Get().FindPlugin(TEXT("MetadataEditor"))->GetBaseDir() / TEXT("Resources"));
 	
-	Style->Set("MetadataEditor.MenuIcon", new FSlateImageBrush(Style->RootToContentDir(TEXT("MetadataEditorIcon_Menu"), TEXT(".png")), FVector2D(40.f, 40.f)));
+	Style->Set("MetadataEditor.Menu", new FSlateImageBrush(Style->RootToContentDir(TEXT("MetadataEditorIcon_Menu"), TEXT(".png")), FVector2D(40.f, 40.f)));
 	
 	return Style;
 }

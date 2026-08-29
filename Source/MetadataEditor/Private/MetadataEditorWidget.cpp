@@ -1,6 +1,5 @@
 // Copyright (c) 2026 Mahyar Kazazi. All Rights Reserved.
 
-
 #include "MetadataEditorWidget.h"
 
 #include "MetadataEditor.h"

@@ -36,18 +36,20 @@ void FMetadataEditorModule::RegisterMenus()
 	Section.AddDynamicEntry("EditMetadata", FNewToolMenuSectionDelegate::CreateLambda([](FToolMenuSection& InSection)
 	{
 		const UContentBrowserAssetContextMenuContext* Context = InSection.FindContext<UContentBrowserAssetContextMenuContext>();
+		// Just work if one asset selected
 		if (!Context || Context->SelectedAssets.IsEmpty() || Context->SelectedAssets.Num() > 1)
 		{
 			return;
 		}
 
+		// Get the first index as user can select only one asset
 		FAssetData SelectedAsset = Context->SelectedAssets[0];
 
 		InSection.AddMenuEntry(
 			"EditMetadata",
 			NSLOCTEXT("FMetadataEditorModule", "MetadataEditorLabel", "Edit Metadata"),
 			NSLOCTEXT("FMetadataEditorModule", "MetadataEditorTooltip", "Edit metadatas of this asset."),
-			FSlateIcon(FMetadataEditorStyle::GetStyleSetName(), "MetadataEditor.MenuIcon"),
+			FSlateIcon(FMetadataEditorStyle::GetStyleSetName(), "MetadataEditor.Menu"),
 			FUIAction(FExecuteAction::CreateStatic(&FMetadataEditorModule::OnEditMetadataClicked, SelectedAsset))
 		);
 	}));
@@ -55,7 +57,7 @@ void FMetadataEditorModule::RegisterMenus()
 
 void FMetadataEditorModule::OnEditMetadataClicked(FAssetData SelectedAsset)
 {
-	UClass* WidgetClass = LoadClass<UMetadataEditorWidget>(nullptr,TEXT("/MetadataEditor/Widgets/EUW_MetadataEditorWidget.EUW_MetadataEditorWidget_C"));
+	UClass* WidgetClass = LoadClass<UMetadataEditorWidget>(nullptr,TEXT("/MetadataEditor/Widgets/EUW_MetadataEditorMainWidget.EUW_MetadataEditorMainWidget_C"));
 
 	if (!WidgetClass)
 	{
@@ -70,6 +72,7 @@ void FMetadataEditorModule::OnEditMetadataClicked(FAssetData SelectedAsset)
 		return;
 	}
 	
+	// Call Initialize event of the widget to fill itself with asset data
 	WidgetInstance->InitializeWithAsset(SelectedAsset.GetAsset());
 
 	const TSharedPtr<SCustomDialog> CustomDialog = SNew(SCustomDialog)
@@ -86,7 +89,6 @@ void FMetadataEditorModule::OnEditMetadataClicked(FAssetData SelectedAsset)
 			SCustomDialog::FButton(FText::FromString(TEXT("Cancel")))
 	});
 	
-	
 	FWindowSizeLimits WindowSizeLimits = FWindowSizeLimits();
 
 	WindowSizeLimits.SetMinHeight(200);
@@ -96,7 +98,7 @@ void FMetadataEditorModule::OnEditMetadataClicked(FAssetData SelectedAsset)
 	
 	CustomDialog->SetSizeLimits(WindowSizeLimits);
 	
-	// Call save event if user clicked on dialog save button
+	// Call save event if user clicked on save button
 	if (CustomDialog->ShowModal() == 0)
 	{
 		WidgetInstance->RequestSave();

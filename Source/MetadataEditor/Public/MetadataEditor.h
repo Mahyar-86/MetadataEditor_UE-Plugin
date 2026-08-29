@@ -15,5 +15,4 @@ public:
 
 	void RegisterMenus();
 	static void OnEditMetadataClicked(FAssetData SelectedAsset);
-
 };
