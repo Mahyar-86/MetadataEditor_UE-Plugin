@@ -86,6 +86,16 @@ void FMetadataEditorModule::OnEditMetadataClicked(FAssetData SelectedAsset)
 			SCustomDialog::FButton(FText::FromString(TEXT("Cancel")))
 	});
 	
+	
+	FWindowSizeLimits WindowSizeLimits = FWindowSizeLimits();
+
+	WindowSizeLimits.SetMinHeight(200);
+	WindowSizeLimits.SetMaxHeight(800);
+	WindowSizeLimits.SetMinWidth(500);
+	WindowSizeLimits.SetMaxWidth(500);
+	
+	CustomDialog->SetSizeLimits(WindowSizeLimits);
+	
 	// Call save event if user clicked on dialog save button
 	if (CustomDialog->ShowModal() == 0)
 	{
